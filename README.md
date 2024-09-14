@@ -1,2 +1,2 @@
-# tfg_lsd
-Level Sensing Device developed during final Graduation Project
+# Level Sensing Device
+Developed for final Graduation Project, this device is designed to take level measurements using different sensors such as Time Of Flight (TOF) and Ultrasonic sensors. It also integrates an LTE modem to transmit the measurement data through 4G and 2G technologies. Besides de level sensors, the device also features a temperature/humidity sensor to help provide better ultrasonic sensing performance.
