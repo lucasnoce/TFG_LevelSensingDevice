@@ -1,0 +1,3 @@
+../Core/Src/MyServicesSrc/device_sleep.c:18:9:lsd_exit_stop_mode	16	static
+../Core/Src/MyServicesSrc/device_sleep.c:28:6:lsd_enter_stop_mode	16	static
+../Core/Src/MyServicesSrc/device_sleep.c:37:6:lsd_change_sleep_time	24	static

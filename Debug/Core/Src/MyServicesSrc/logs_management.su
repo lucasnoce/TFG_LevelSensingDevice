@@ -1,0 +1,8 @@
+../Core/Src/MyServicesSrc/logs_management.c:45:6:lsd_log_write	24	static
+../Core/Src/MyServicesSrc/logs_management.c:59:6:lsd_log_read_index	16	static
+../Core/Src/MyServicesSrc/logs_management.c:76:6:lsd_log_read_batch	32	static
+../Core/Src/MyServicesSrc/logs_management.c:103:13:log_copy_local_to_global	16	static
+../Core/Src/MyServicesSrc/logs_management.c:122:13:log_copy_global_to_local	16	static
+../Core/Src/MyServicesSrc/logs_management.c:141:13:write_log_values	24	static
+../Core/Src/MyServicesSrc/logs_management.c:180:15:log_values_check	24	static
+../Core/Src/MyServicesSrc/logs_management.c:195:13:update_pos_indexes	4	static

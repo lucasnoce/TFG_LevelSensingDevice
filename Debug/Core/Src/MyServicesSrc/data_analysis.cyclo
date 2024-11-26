@@ -1,0 +1,4 @@
+../Core/Src/MyServicesSrc/data_analysis.c:40:6:lsd_analyze_data	1
+../Core/Src/MyServicesSrc/data_analysis.c:52:13:update_thresold_values	1
+../Core/Src/MyServicesSrc/data_analysis.c:75:13:categoryze_recent_data	1
+../Core/Src/MyServicesSrc/data_analysis.c:91:16:compare_threshold	5

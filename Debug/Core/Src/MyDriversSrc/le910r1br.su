@@ -1,0 +1,15 @@
+../Core/Src/MyDriversSrc/le910r1br.c:91:8:le910r1br_init	16	static
+../Core/Src/MyDriversSrc/le910r1br.c:108:6:le910r1br_power_on	8	static
+../Core/Src/MyDriversSrc/le910r1br.c:124:6:le910r1br_power_off	8	static
+../Core/Src/MyDriversSrc/le910r1br.c:138:8:le910r1br_send_message	24	static
+../Core/Src/MyDriversSrc/le910r1br.c:153:8:le910r1br_sw_shutdown	8	static
+../Core/Src/MyDriversSrc/le910r1br.c:157:8:le910r1br_sw_reboot	8	static
+../Core/Src/MyDriversSrc/le910r1br.c:161:8:le910r1br_check_at	8	static
+../Core/Src/MyDriversSrc/le910r1br.c:165:8:le910r1br_check_cpin	8	static
+../Core/Src/MyDriversSrc/le910r1br.c:169:8:le910r1br_check_csq	8	static
+../Core/Src/MyDriversSrc/le910r1br.c:173:8:le910r1br_set_cops	64	static
+../Core/Src/MyDriversSrc/le910r1br.c:211:6:le910r1br_power_callback_handler	8	static
+../Core/Src/MyDriversSrc/le910r1br.c:234:15:modem_at_cmd_concat	40	static
+../Core/Src/MyDriversSrc/le910r1br.c:293:15:modem_send_command_receive_response	40	static
+../Core/Src/MyDriversSrc/le910r1br.c:333:15:modem_try_take_buffer	24	static
+../Core/Src/MyDriversSrc/le910r1br.c:362:15:modem_send_at_cmd	32	static

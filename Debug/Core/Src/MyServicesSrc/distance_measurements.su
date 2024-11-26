@@ -1,0 +1,5 @@
+../Core/Src/MyServicesSrc/distance_measurements.c:46:6:lsd_measure_distance	16	static
+../Core/Src/MyServicesSrc/distance_measurements.c:58:13:read_climate_variables	16	static
+../Core/Src/MyServicesSrc/distance_measurements.c:70:13:calculate_speed_of_sound	8	static
+../Core/Src/MyServicesSrc/distance_measurements.c:79:13:calculate_distance	24	static
+../Core/Src/MyServicesSrc/distance_measurements.c:98:13:calculate_speed_of_sound_Cramer_1993	88	static

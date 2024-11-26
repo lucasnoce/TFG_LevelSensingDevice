@@ -1,0 +1,11 @@
+../Core/Src/MyDriversSrc/leds.c:60:8:leds_init	24	static
+../Core/Src/MyDriversSrc/leds.c:96:8:leds_turn_on	24	static
+../Core/Src/MyDriversSrc/leds.c:116:8:leds_turn_off	24	static
+../Core/Src/MyDriversSrc/leds.c:135:8:leds_toggle	24	static
+../Core/Src/MyDriversSrc/leds.c:152:8:leds_blink_slow	24	static
+../Core/Src/MyDriversSrc/leds.c:177:8:leds_blink_fast	24	static
+../Core/Src/MyDriversSrc/leds.c:202:8:leds_blink_single	24	static
+../Core/Src/MyDriversSrc/leds.c:227:6:leds_callback_handler	16	static
+../Core/Src/MyDriversSrc/leds.c:242:8:leds_self_test	24	static
+../Core/Src/MyDriversSrc/leds.c:295:20:leds_write_value	16	static
+../Core/Src/MyDriversSrc/leds.c:310:20:leds_timer_set_compare_value	24	static

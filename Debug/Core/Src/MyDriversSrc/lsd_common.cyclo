@@ -1,0 +1,5 @@
+../Core/Src/MyDriversSrc/lsd_common.c:26:8:lsd_common_init	3
+../Core/Src/MyDriversSrc/lsd_common.c:37:6:lsd_delay_us	3
+../Core/Src/MyDriversSrc/lsd_common.c:48:6:lsd_delay_ms	2
+../Core/Src/MyDriversSrc/lsd_common.c:55:6:lsd_update_rtc_timestamp	2
+../Core/Src/MyDriversSrc/lsd_common.c:80:6:lsd_get_rtc_timestamp	1

@@ -1,0 +1,4 @@
+../Core/Src/MyDriversSrc/lsd_callbacks.c:26:6:HAL_TIM_OC_DelayElapsedCallback	3
+../Core/Src/MyDriversSrc/lsd_callbacks.c:39:6:HAL_GPIO_EXTI_Callback	3
+../Core/Src/MyDriversSrc/lsd_callbacks.c:51:6:HAL_UART_RxCpltCallback	1
+../Core/Src/MyDriversSrc/lsd_callbacks.c:58:6:HAL_UART_TxCpltCallback	2

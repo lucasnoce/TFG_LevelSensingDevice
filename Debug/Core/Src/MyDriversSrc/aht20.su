@@ -1,0 +1,12 @@
+../Core/Src/MyDriversSrc/aht20.c:73:8:aht20_init	24	static
+../Core/Src/MyDriversSrc/aht20.c:82:8:aht20_soft_reset	16	static
+../Core/Src/MyDriversSrc/aht20.c:91:8:aht20_update	40	static
+../Core/Src/MyDriversSrc/aht20.c:149:9:aht20_get_status	4	static
+../Core/Src/MyDriversSrc/aht20.c:153:6:aht20_is_busy	4	static
+../Core/Src/MyDriversSrc/aht20.c:157:9:aht20_get_mode	4	static
+../Core/Src/MyDriversSrc/aht20.c:161:6:aht20_is_calibrated	4	static
+../Core/Src/MyDriversSrc/aht20.c:165:7:aht20_get_temperature_C	16	static
+../Core/Src/MyDriversSrc/aht20.c:170:7:aht20_get_humidity_RH	16	static
+../Core/Src/MyDriversSrc/aht20.c:211:15:aht20_hal_i2c_transmit	32	static
+../Core/Src/MyDriversSrc/aht20.c:227:15:aht20_hal_i2c_receive	32	static
+../Core/Src/MyDriversSrc/aht20.c:243:16:calculate_crc8	24	static
