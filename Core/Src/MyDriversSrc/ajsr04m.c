@@ -80,13 +80,13 @@ int8_t ajsr04m_read_tof_exti( void ){
 	ajsr04m_trigger_measurement();
 	return LSD_OK;
 }
-static volatile int tim_flag;
+//static volatile int tim_flag;
 float ajsr04m_get_tof_ms( void ){
 //	HAL_TIM_Base_Stop( p_ajsr04m_htim );
 //	__HAL_TIM_SET_COUNTER( p_ajsr04m_htim, 0 );
 
 	if( ajsr04m_data.measuring == false ){
-		int ret = tim_flag;
+//		int ret = tim_flag ;
 		ajsr04m_data.tof = (float) ajsr04m_data.tof_ticks / 10000.0;		// translates to miliseconds
 		return ajsr04m_data.tof;
 	}

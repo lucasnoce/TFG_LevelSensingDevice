@@ -10,8 +10,8 @@
  */
 
 #include "main.h"
-//#include "usb_device.h"
-//#include "usbd_cdc_if.h"
+#include "usb_device.h"
+#include "usbd_cdc_if.h"
 
 #include "MyDriversInc/lsd_errno.h"
 #include "MyDriversInc/lsd_config.h"
@@ -28,7 +28,8 @@
 #include "MyServicesInc/logs_management.h"
 #include "MyServicesInc/data_analysis.h"
 #include "MyServicesInc/device_sleep.h"
-#include "MyServicesInc/lte_transmissions.h"
+#include "MyServicesInc/lte_transmission.h"
+#include "MyServicesInc/usb_transmission.h"
 
 /* ==========================================================================================================
  * Definitions
@@ -43,6 +44,7 @@
 
 extern volatile uint32_t lsd_cycle_count;
 
+static STATES_E previous_state = S0_WAKEUP;  // Store the current state of the state machine
 static STATES_E current_state = S0_WAKEUP;  // Store the current state of the state machine
 
 static LSD_MCU_PERIPH_HANDLES_T *hmcu_periph;
@@ -78,8 +80,8 @@ void state_machine_init( LSD_MCU_PERIPH_HANDLES_T *hmcu, lsd_sys_clk_cfg_t clk_c
 	ret += ajsr04m_init( hmcu_periph->mcu_htim[LSD_TIM_SENSORS] );
 	ret += le910r1br_init( hmcu_periph->mcu_huart, hmcu_periph->mcu_htim[LSD_TIM_GENERAL] );
 
-//	uint8_t *msg = "System Initialized\r\n";
-//	CDC_Transmit_FS( msg, strlen( (char *) msg ) );
+	char *msg = "System Initialized\r\n";
+	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
 
 	HAL_Delay( 1000 );
 
@@ -124,88 +126,86 @@ void state_machine_run( void ){
  */
 
 static void state_machine_run_s0_wakeup( void ){
-	HAL_Delay( 1000 );
-	lsd_exit_stop_mode( lsd_clk_cfg );
+	if( lsd_cycle_count > 0 ){
+		lsd_exit_stop_mode( lsd_clk_cfg );
+	}
 
+	HAL_Delay( 1000 );
 	lsd_cycle_count++;
 
-	leds_turn_on( LSD_LED_BLUE );
+	char msg_cyle[40] = { 0 };
+	snprintf( msg_cyle, 40, "\n********** Cycle %ld **********\n", lsd_cycle_count );
+	CDC_Transmit_FS( (uint8_t *) msg_cyle, strlen( msg_cyle ) );
 
+	char *msg = "S0 - Wakeup\n";
+	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+
+	leds_turn_on( LSD_LED_BLUE );
 //	le910r1br_power_on();
 	HAL_GPIO_WritePin( SENSOR_PWR_GPIO_Port, SENSOR_PWR_Pin, LSD_SENSORS_ON );
-
 	leds_turn_off( LSD_LED_BLUE );
 
 	HAL_Delay( 1000 );
+	previous_state = current_state;
 	current_state = S1_MEASURE;
 	return;
 }
 
 static void state_machine_run_s1_measure( void ){
-	leds_turn_on( LSD_ALL_LEDS);
-	lsd_measure_distance( &lsd_log_data );
-	leds_turn_off( LSD_ALL_LEDS );
+	char *msg = "S1 - Measuring\n";
+	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
 
-	current_state = S1_MEASURE;
+	leds_turn_on( LSD_LED_RED );
+	lsd_measure_distance( &lsd_log_data );
+	leds_turn_off( LSD_LED_RED );
+
+	previous_state = current_state;
+	current_state = S2_ANALYZE;
 	HAL_Delay( 1000 );
 	return;
 }
 
 static void state_machine_run_s2_analyze( void ){
+	char *msg = "S2 - Analyzing data\n";
+	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+
 	lsd_analyze_data( &lsd_log_data );
 	lsd_log_write( &lsd_log_data );
 
 	/*
-	 * TODO: change next state depending on data, maybe skip a transmission or shorten sleep time
+	 *  TODO: change next state depending on data, maybe skip a transmission or shorten sleep time.
+	 *
+	 *  lsd_change_sleep_time( hmcu_periph->mcu_hrtc, 0, 0, 5 );
 	 */
-//	lsd_change_sleep_time( hmcu_periph->mcu_hrtc, 0, 0, 5 );
+
+	previous_state = current_state;
 	current_state = S3_TRANSMIT;
 	return;
 }
 
 static void state_machine_run_s3_transmit( void ){
+	char *msg = "S3 - Transmitting\n";
+	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+
 //	lsd_transmit_lte();
-	int8_t ret = le910r1br_check_at();
-	HAL_Delay(500);
+//	int8_t ret = le910r1br_check_at();
+//	HAL_Delay(500);
+//
+//	ret = le910r1br_check_cpin();
+//	HAL_Delay(500);
 
-	ret = le910r1br_check_cpin();
-	HAL_Delay(500);
+	lsd_transmit_usb( &lsd_log_data );
 
-//	uint8_t msg_size = 64;
-//	char msg[msg_size];
-//
-//	CDC_Transmit_FS( "\n==========\n\n", 13 );
-//
-//	snprintf( msg, msg_size, "temperature = %.2f [*C]\r\n", lsd_log_data.clim.temperature );
-//	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
-//	snprintf( msg, msg_size, "category : %d\r\n\n", lsd_log_data.clim.temperature_category );
-//	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
-//
-//	snprintf( msg, msg_size, "humidity = %.2f [RH]\r\n", lsd_log_data.clim.humidity );
-//	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
-//	snprintf( msg, msg_size, "category : %d\r\n\n", lsd_log_data.clim.humidity_category );
-//	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
-//
-//	snprintf( msg, msg_size, "distance = %.2f [m]\r\n", lsd_log_data.dist.distance );
-//	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
-//	snprintf( msg, msg_size, "category : %d\r\n\n", lsd_log_data.dist.distance_category );
-//	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
-//
-//	snprintf( msg, msg_size, "speed_of_sound = %.2f [m/s]\r\n", lsd_log_data.dist.speed_of_sound );
-//	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
-//	snprintf( msg, msg_size, "category : %d\r\n\n", lsd_log_data.dist.speed_of_sound_category );
-//	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
-//
-//	snprintf( msg, msg_size, "errors : %c%c%c%c%c%c%c%c\r\n", BYTE_TO_BINARY( lsd_log_data.errors ) );
-//	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
-//	snprintf( msg, msg_size, "transmitted : %s\r\n\n", ( lsd_log_data.transmitted ? "true" : "false" ) );
-//	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
-
-	current_state = S3_TRANSMIT;
+	previous_state = current_state;
+	current_state = S4_SLEEP;
 	return;
 }
 
 static void state_machine_run_s4_sleep( void ){
+	char *msg = "S4 - Entering sleep\n";
+	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+
+	previous_state = current_state;
 	current_state = S0_WAKEUP;
 
 	leds_turn_on( LSD_LED_BLUE );
@@ -213,66 +213,25 @@ static void state_machine_run_s4_sleep( void ){
 	HAL_GPIO_WritePin( SENSOR_PWR_GPIO_Port, SENSOR_PWR_Pin, LSD_SENSORS_OFF );
 	leds_turn_off( LSD_LED_BLUE );
 
-//	lsd_enter_stop_mode();
+	lsd_enter_stop_mode();
+	HAL_Delay( 1000 );
 	return;
 }
 
 static void state_machine_run_s5_fail_safe( void ){
+	char *msg = "S5 - Fail safe\n";
+	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+
+	if( previous_state != current_state ){  // first time entering S5 state
+		leds_blink_fast( LSD_LED_RED );
+	}
+
+	/*
+	 *	TODO: identify issue, print and try solving it
+	 */
+
+	previous_state = current_state;
 	current_state = S5_FAIL_SAFE;
 	return;
 }
-
-
-
-//static void state_machine_run_s0_wakeup( void ){
-//	// depends on where the program will wakeup (from the beginning or from loop)
-//	return;
-//}
-//
-//static void state_machine_run_s1_measure( void ){
-////	HAL_StatusTypeDef HAL_I2C_Master_Transmit(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint8_t *pData, uint16_t Size, uint32_t Timeout)
-////	HAL_I2C_Master_Transmit();
-//	read_climate_variables();
-//	calculate_speed_of_sound();
-//	read_time_of_flight();
-//	calculate_distance();
-//	return;
-//}
-//
-//void state_machine_run_s2_analyze( void ){
-//	categoryze_variables();
-//	generate_warnings_events();
-//	calculate_trend();
-//	log_results();
-//	return;
-//}
-//
-//static void state_machine_run_s3_transmit( void ){
-//	check_connection();
-//	encapsulate_data_json();
-//	send_data();
-//	return;
-//}
-//
-//static void state_machine_run_s4_sleep( void ){
-//	turn_off_modem();
-//	turn_off_peripherals();
-//	set_wakeup_timer_interrupt();
-//	enter_sleep_mode();
-//	return;
-//}
-//
-//static void state_machine_run_s5_fail_safe( void ){
-//	try_to_identify_issue();
-//	log_issue_info();
-//	try_to_solve_issue();
-//	if ( solved ){
-//		go_back_to_previous_state();
-//		send_issue_event();
-//	}
-//	else{
-//		reset_everything();
-//	}
-//	return;
-//}
 

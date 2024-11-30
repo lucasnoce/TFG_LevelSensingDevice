@@ -47,8 +47,8 @@ void lsd_measure_distance( LSD_LOG_DATA_T *p_log ){
 	p_log_data = p_log;
 
 	read_climate_variables();
-//	calculate_speed_of_sound();
-//	calculate_distance();
+	calculate_speed_of_sound();
+	calculate_distance();
 }
 
 /* ==========================================================================================================
@@ -77,7 +77,8 @@ static void calculate_speed_of_sound( void ){
 }
 
 static void calculate_distance( void ){
-	int8_t ret;
+	int8_t ret __attribute__( ( unused ) );
+
 //	ret = ajsr04m_read_tof_blocking( LSD_STD_TIMEOUT_US );
 	ret = ajsr04m_read_tof_exti();
 

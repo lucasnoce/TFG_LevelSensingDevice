@@ -8,17 +8,24 @@
 #include <stdint.h>
 
 #include "stm32f1xx_hal.h"
+#include "stm32f1xx_hal_rcc_ex.h"
 
 #include "main.h"
-//#include "usb_device.h"
+#include "usb_device.h"
+#include "usbd_cdc_if.h"
+
 #include "MyDriversInc/lsd_errno.h"
 #include "MyServicesInc/device_sleep.h"
 
+extern volatile uint32_t lsd_cycle_count;
 
 uint8_t lsd_exit_stop_mode( lsd_sys_clk_cfg_t clk_cfg ){
 	if( clk_cfg != NULL ){
 		clk_cfg();
-//		MX_USB_DEVICE_Init();
+
+		__HAL_RCC_USB_CLK_ENABLE();
+		MX_USB_DEVICE_Init();
+
 		return LSD_OK;
 	}
 
@@ -26,10 +33,9 @@ uint8_t lsd_exit_stop_mode( lsd_sys_clk_cfg_t clk_cfg ){
 }
 
 void lsd_enter_stop_mode( void ){
+	MX_USB_DEVICE_Deinit();
+	__HAL_RCC_USB_CLK_DISABLE();
     __HAL_RCC_PWR_CLK_ENABLE();
-
-    // Prepare wake-up sources as needed
-    // (e.g., configure an EXTI interrupt or RTC alarm here)
 
     HAL_PWR_EnterSTOPMode( PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFI );
 }

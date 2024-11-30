@@ -58,7 +58,7 @@ typedef struct MODEM_DATA_TAG{
 } MODEM_DATA_T;
 
 typedef struct MODEM_AT_CMD_TAG{
-	char *cmd;
+	const char *cmd;
 	char **prm;
 } MODEM_AT_CMD_T;
 
@@ -360,7 +360,7 @@ static int8_t modem_try_take_buffer( uint8_t buf_rx_tx, uint8_t max_tries ){
 }
 
 static int8_t modem_send_at_cmd( AT_CMD_TYPE_E type, const char *cmd, char **prm, uint8_t prm_count ){
-	int8_t ret = LSD_OK;
+//	int8_t ret = LSD_OK;
 
 //	ret = modem_try_take_buffer( MODEM_TAKE_TX_BUF, 10 );
 //	if( ret != LSD_OK ){

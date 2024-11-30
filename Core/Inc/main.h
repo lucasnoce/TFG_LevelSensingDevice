@@ -109,10 +109,6 @@ void Error_Handler(void);
 #define US_TRIG_GPIO_Port GPIOB
 #define uLTE_PWR_Pin GPIO_PIN_10
 #define uLTE_PWR_GPIO_Port GPIOB
-#define uLTE_TX_Pin GPIO_PIN_9
-#define uLTE_TX_GPIO_Port GPIOA
-#define uLTE_RX_Pin GPIO_PIN_10
-#define uLTE_RX_GPIO_Port GPIOA
 #define LED_INFO1_Pin GPIO_PIN_11
 #define LED_INFO1_GPIO_Port GPIOC
 #define LED_INFO2_Pin GPIO_PIN_12
