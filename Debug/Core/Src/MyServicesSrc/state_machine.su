@@ -1,8 +1,8 @@
-../Core/Src/MyServicesSrc/state_machine.c:67:6:state_machine_init	24	static
-../Core/Src/MyServicesSrc/state_machine.c:89:6:state_machine_run	8	static
-../Core/Src/MyServicesSrc/state_machine.c:126:13:state_machine_run_s0_wakeup	8	static
-../Core/Src/MyServicesSrc/state_machine.c:144:13:state_machine_run_s1_measure	8	static
-../Core/Src/MyServicesSrc/state_machine.c:154:13:state_machine_run_s2_analyze	8	static
-../Core/Src/MyServicesSrc/state_machine.c:166:13:state_machine_run_s3_transmit	16	static
-../Core/Src/MyServicesSrc/state_machine.c:208:13:state_machine_run_s4_sleep	8	static
-../Core/Src/MyServicesSrc/state_machine.c:220:13:state_machine_run_s5_fail_safe	4	static
+../Core/Src/MyServicesSrc/state_machine.c:69:6:state_machine_init	24	static
+../Core/Src/MyServicesSrc/state_machine.c:91:6:state_machine_run	8	static
+../Core/Src/MyServicesSrc/state_machine.c:128:13:state_machine_run_s0_wakeup	56	static
+../Core/Src/MyServicesSrc/state_machine.c:154:13:state_machine_run_s1_measure	16	static
+../Core/Src/MyServicesSrc/state_machine.c:168:13:state_machine_run_s2_analyze	16	static
+../Core/Src/MyServicesSrc/state_machine.c:186:13:state_machine_run_s3_transmit	16	static
+../Core/Src/MyServicesSrc/state_machine.c:204:13:state_machine_run_s4_sleep	16	static
+../Core/Src/MyServicesSrc/state_machine.c:221:13:state_machine_run_s5_fail_safe	16	static

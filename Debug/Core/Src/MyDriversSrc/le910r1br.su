@@ -12,4 +12,4 @@
 ../Core/Src/MyDriversSrc/le910r1br.c:234:15:modem_at_cmd_concat	40	static
 ../Core/Src/MyDriversSrc/le910r1br.c:293:15:modem_send_command_receive_response	40	static
 ../Core/Src/MyDriversSrc/le910r1br.c:333:15:modem_try_take_buffer	24	static
-../Core/Src/MyDriversSrc/le910r1br.c:362:15:modem_send_at_cmd	32	static
+../Core/Src/MyDriversSrc/le910r1br.c:362:15:modem_send_at_cmd	24	static
