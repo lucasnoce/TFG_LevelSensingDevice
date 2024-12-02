@@ -70,7 +70,7 @@ void MX_USB_DEVICE_Deinit(void)
 void MX_USB_DEVICE_Init(void)
 {
   /* USER CODE BEGIN USB_DEVICE_Init_PreTreatment */
-
+#if LSD_PERIPH_USED_USB == TRUE
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
 
   /* Init Device Library, add supported class and start the library. */
@@ -92,7 +92,7 @@ void MX_USB_DEVICE_Init(void)
   }
 
   /* USER CODE BEGIN USB_DEVICE_Init_PostTreatment */
-
+#endif /* LSD_PERIPH_USED_USB */
   /* USER CODE END USB_DEVICE_Init_PostTreatment */
 }
 

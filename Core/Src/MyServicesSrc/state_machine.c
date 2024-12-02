@@ -142,12 +142,12 @@ static void state_machine_run_s0_wakeup( void ){
 	char *msg = "S0 - Wakeup\n";
 	lsd_print_msg_usb( msg, strlen( msg ) );
 
-	leds_turn_on( LSD_LED_BLUE );
+	leds_turn_on( LSD_LED_RED );
 //	le910r1br_power_on();
 	HAL_GPIO_WritePin( SENSOR_PWR_GPIO_Port, SENSOR_PWR_Pin, LSD_SENSORS_ON );
-	leds_turn_off( LSD_LED_BLUE );
+	HAL_Delay( 100 );
+	leds_turn_off( LSD_LED_RED );
 
-	HAL_Delay( 1000 );
 	previous_state = current_state;
 	current_state = S1_MEASURE;
 	return;
@@ -157,13 +157,13 @@ static void state_machine_run_s1_measure( void ){
 	char *msg = "S1 - Measuring\n";
 	lsd_print_msg_usb( msg, strlen( msg ) );
 
-	leds_turn_on( LSD_LED_RED );
+	leds_turn_on( LSD_LED_BLUE );
 	lsd_measure_distance( &lsd_log_data );
-	leds_turn_off( LSD_LED_RED );
+	HAL_Delay( 100 );
+	leds_turn_off( LSD_LED_BLUE );
 
 	previous_state = current_state;
 	current_state = S2_ANALYZE;
-	HAL_Delay( 1000 );
 	return;
 }
 
@@ -210,10 +210,11 @@ static void state_machine_run_s4_sleep( void ){
 	previous_state = current_state;
 	current_state = S0_WAKEUP;
 
-	leds_turn_on( LSD_LED_BLUE );
-	le910r1br_power_off();
+	leds_turn_on( LSD_LED_RED );
+//	le910r1br_power_off();
 	HAL_GPIO_WritePin( SENSOR_PWR_GPIO_Port, SENSOR_PWR_Pin, LSD_SENSORS_OFF );
-	leds_turn_off( LSD_LED_BLUE );
+	HAL_Delay( 100 );
+	leds_turn_off( LSD_LED_RED );
 
 	lsd_enter_stop_mode();
 	HAL_Delay( 1000 );

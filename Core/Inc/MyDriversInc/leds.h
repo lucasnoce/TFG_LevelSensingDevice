@@ -14,8 +14,8 @@
 #include "MyDriversInc/lsd_config.h"
 
 typedef enum{
-	LSD_LED_BLUE = 0,
-	LSD_LED_RED,
+	LSD_LED_RED = 0,
+	LSD_LED_BLUE,
 	LSD_ALL_LEDS,
 } LSD_LEDS_E;
 
