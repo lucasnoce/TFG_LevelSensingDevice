@@ -1,1 +1,5 @@
-../Core/Src/MyServicesSrc/usb_transmission.c:19:6:lsd_transmit_usb	192	static
+../Core/Src/MyServicesSrc/usb_transmission.c:30:8:lsd_usb_init	16	static
+../Core/Src/MyServicesSrc/usb_transmission.c:59:8:lsd_usb_reinit	8	static
+../Core/Src/MyServicesSrc/usb_transmission.c:67:8:lsd_usb_deinit	8	static
+../Core/Src/MyServicesSrc/usb_transmission.c:78:8:lsd_print_msg_usb	16	static
+../Core/Src/MyServicesSrc/usb_transmission.c:92:8:lsd_print_log_data_usb	192	static

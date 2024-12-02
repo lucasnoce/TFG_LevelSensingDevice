@@ -6,6 +6,5 @@
 ../Core/Src/MyDriversSrc/leds.c:177:8:leds_blink_fast	4
 ../Core/Src/MyDriversSrc/leds.c:202:8:leds_blink_single	4
 ../Core/Src/MyDriversSrc/leds.c:227:6:leds_callback_handler	2
-../Core/Src/MyDriversSrc/leds.c:242:8:leds_self_test	7
 ../Core/Src/MyDriversSrc/leds.c:295:20:leds_write_value	1
-../Core/Src/MyDriversSrc/leds.c:310:20:leds_timer_set_compare_value	4
+../Core/Src/MyDriversSrc/leds.c:300:20:leds_timer_set_compare_value	4
