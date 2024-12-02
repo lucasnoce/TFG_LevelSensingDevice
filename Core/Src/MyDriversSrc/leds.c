@@ -294,16 +294,6 @@ int8_t leds_self_test( TIM_HandleTypeDef *htim ){
 
 static inline void leds_write_value( uint8_t led, uint8_t value ){
 	HAL_GPIO_WritePin( leds_data[led].port, leds_data[led].pin, value );
-//	switch( led ){
-//		case LSD_LED_BLUE:
-//			HAL_GPIO_WritePin( LED_INFO1_GPIO_Port, LED_INFO1_Pin, value );
-//			break;
-//		case LSD_LED_RED:
-//			HAL_GPIO_WritePin( LED_INFO2_GPIO_Port, LED_INFO2_Pin, value );
-//			break;
-//		default:
-//			break;
-//	}
 	return;
 }
 

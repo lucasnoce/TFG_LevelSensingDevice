@@ -9,9 +9,10 @@
  * Includes
  */
 
+#include <stdint.h>
+#include <string.h>
+#include <stdio.h>
 #include "main.h"
-#include "usb_device.h"
-#include "usbd_cdc_if.h"
 
 #include "MyDriversInc/lsd_errno.h"
 #include "MyDriversInc/lsd_config.h"
@@ -74,14 +75,15 @@ void state_machine_init( LSD_MCU_PERIPH_HANDLES_T *hmcu, lsd_sys_clk_cfg_t clk_c
 
 	int8_t ret = 0;
 
-	ret = lsd_common_init( hmcu_periph->mcu_htim[LSD_TIM_COMMON], hmcu_periph->mcu_hrtc );
+	ret += lsd_common_init( hmcu_periph->mcu_htim[LSD_TIM_COMMON], hmcu_periph->mcu_hrtc );
+	ret += lsd_usb_init( ( uint32_t * ) hmcu_periph->mcu_huart[LSD_UART_FTDI] );
 	ret += leds_init( hmcu_periph->mcu_htim[LSD_TIM_GENERAL] );
 	ret += aht20_init( hmcu_periph->mcu_hi2c );
 	ret += ajsr04m_init( hmcu_periph->mcu_htim[LSD_TIM_SENSORS] );
-	ret += le910r1br_init( hmcu_periph->mcu_huart, hmcu_periph->mcu_htim[LSD_TIM_GENERAL] );
+	ret += le910r1br_init( hmcu_periph->mcu_huart[LSD_UART_MODEM], hmcu_periph->mcu_htim[LSD_TIM_GENERAL] );
 
 	char *msg = "System Initialized\r\n";
-	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+	lsd_print_msg_usb( msg, strlen( msg ) );
 
 	HAL_Delay( 1000 );
 
@@ -135,10 +137,10 @@ static void state_machine_run_s0_wakeup( void ){
 
 	char msg_cyle[40] = { 0 };
 	snprintf( msg_cyle, 40, "\n********** Cycle %ld **********\n", lsd_cycle_count );
-	CDC_Transmit_FS( (uint8_t *) msg_cyle, strlen( msg_cyle ) );
+	lsd_print_msg_usb( msg_cyle, strlen( msg_cyle ) );
 
 	char *msg = "S0 - Wakeup\n";
-	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+	lsd_print_msg_usb( msg, strlen( msg ) );
 
 	leds_turn_on( LSD_LED_BLUE );
 //	le910r1br_power_on();
@@ -153,7 +155,7 @@ static void state_machine_run_s0_wakeup( void ){
 
 static void state_machine_run_s1_measure( void ){
 	char *msg = "S1 - Measuring\n";
-	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+	lsd_print_msg_usb( msg, strlen( msg ) );
 
 	leds_turn_on( LSD_LED_RED );
 	lsd_measure_distance( &lsd_log_data );
@@ -167,7 +169,7 @@ static void state_machine_run_s1_measure( void ){
 
 static void state_machine_run_s2_analyze( void ){
 	char *msg = "S2 - Analyzing data\n";
-	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+	lsd_print_msg_usb( msg, strlen( msg ) );
 
 	lsd_analyze_data( &lsd_log_data );
 	lsd_log_write( &lsd_log_data );
@@ -185,7 +187,7 @@ static void state_machine_run_s2_analyze( void ){
 
 static void state_machine_run_s3_transmit( void ){
 	char *msg = "S3 - Transmitting\n";
-	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+	lsd_print_msg_usb( msg, strlen( msg ) );
 
 //	lsd_transmit_lte();
 //	int8_t ret = le910r1br_check_at();
@@ -194,7 +196,7 @@ static void state_machine_run_s3_transmit( void ){
 //	ret = le910r1br_check_cpin();
 //	HAL_Delay(500);
 
-	lsd_transmit_usb( &lsd_log_data );
+	lsd_print_log_data_usb( &lsd_log_data );
 
 	previous_state = current_state;
 	current_state = S4_SLEEP;
@@ -203,7 +205,7 @@ static void state_machine_run_s3_transmit( void ){
 
 static void state_machine_run_s4_sleep( void ){
 	char *msg = "S4 - Entering sleep\n";
-	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+	lsd_print_msg_usb( msg, strlen( msg ) );
 
 	previous_state = current_state;
 	current_state = S0_WAKEUP;
@@ -220,7 +222,7 @@ static void state_machine_run_s4_sleep( void ){
 
 static void state_machine_run_s5_fail_safe( void ){
 	char *msg = "S5 - Fail safe\n";
-	CDC_Transmit_FS( (uint8_t *) msg, strlen( msg ) );
+	lsd_print_msg_usb( msg, strlen( msg ) );
 
 	if( previous_state != current_state ){  // first time entering S5 state
 		leds_blink_fast( LSD_LED_RED );

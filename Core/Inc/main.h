@@ -48,7 +48,7 @@ typedef struct LSD_BUFFER_TAG{
 typedef struct LSD_MCU_PERIPH_HANDLES_TAG{
 	I2C_HandleTypeDef *mcu_hi2c;
 	TIM_HandleTypeDef *mcu_htim[3];
-	UART_HandleTypeDef *mcu_huart;
+	UART_HandleTypeDef *mcu_huart[2];
 	RTC_HandleTypeDef *mcu_hrtc;
 } LSD_MCU_PERIPH_HANDLES_T;
 

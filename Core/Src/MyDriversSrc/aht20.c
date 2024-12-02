@@ -258,25 +258,3 @@ static uint8_t calculate_crc8( uint8_t *data, uint8_t length ){
 
     return crc;
 }
-
-//
-//bool aht20_check_crc8(void) {
-//    uint8_t crc = 0xFF;  // Initial CRC value
-//
-//    // Loop through the first 6 bytes of the received data
-//    for (uint8_t byteIndex = 0; byteIndex < AHT20_DATA_LENGTH; byteIndex++) {
-//        crc ^= aht20_data.rawData[byteIndex]; // XOR the current byte with CRC
-//
-//        // Process each bit in the byte
-//        for (uint8_t bitIndex = 8; bitIndex > 0; --bitIndex) {
-//            if (crc & 0x80) {  // Check if the MSB is set
-//                crc = (crc << 1) ^ AHT20_CRC_POLYNOMIAL; // Shift left and apply polynomial
-//            } else {
-//                crc = (crc << 1); // Just shift left
-//            }
-//        }
-//    }
-//
-//    // Compare calculated CRC with the received CRC
-//    return (crc == aht20_data.rawData[6]); // Check against the 7th byte (CRC)
-//}

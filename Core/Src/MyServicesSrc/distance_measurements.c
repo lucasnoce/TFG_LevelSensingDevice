@@ -11,17 +11,17 @@
 
 #include "MyServicesInc/distance_measurements.h"
 
-#ifdef PERIPH_USED_AJSR04M
+#ifdef LSD_PERIPH_USED_AJSR04M
 #include "MyDriversInc/ajsr04m.h"
-#endif /* PERIPH_USED_AJSR04M */
+#endif /* LSD_PERIPH_USED_AJSR04M */
 
-//#ifdef PERIPH_USED_AHT20
+//#ifdef LSD_PERIPH_USED_AHT20
 #include "MyDriversInc/aht20.h"
-//#endif /* PERIPH_USED_AHT20 */
+//#endif /* LSD_PERIPH_USED_AHT20 */
 
-//#ifdef PERIPH_USED_VL53L0CX
+//#ifdef LSD_PERIPH_USED_VL53L0CX
 //#include "MyDriversInc/vl53l0cx.h"
-//#endif /* PERIPH_USED_VL53L0CX */
+//#endif /* LSD_PERIPH_USED_VL53L0CX */
 
 static LSD_LOG_DATA_T *p_log_data;
 
@@ -31,9 +31,9 @@ static LSD_LOG_DATA_T *p_log_data;
 
 static void calculate_speed_of_sound_Cramer_1993( void );
 
-#ifndef PERIPH_USED_AHT20
+#ifndef LSD_PERIPH_USED_AHT20
 static void interpolateSpeedOfSound( LSD_CLIMATE_DATA_T *clim_data, LSD_DISTANCE_DATA_T *dist_data );
-#endif /* PERIPH_USED_AHT20 */
+#endif /* LSD_PERIPH_USED_AHT20 */
 
 static void read_climate_variables( void );
 static void calculate_speed_of_sound( void );
@@ -68,11 +68,11 @@ static void read_climate_variables( void ){
 }
 
 static void calculate_speed_of_sound( void ){
-#ifdef PERIPH_USED_AHT20
+#ifdef LSD_PERIPH_USED_AHT20
 	calculate_speed_of_sound_Cramer_1993();
 #else
 	interpolateSpeedOfSound( );
-#endif /* PERIPH_USED_AHT20 */
+#endif /* LSD_PERIPH_USED_AHT20 */
 	return;
 }
 
@@ -129,7 +129,7 @@ static void calculate_speed_of_sound_Cramer_1993( void ){
 }
 
 
-#ifndef PERIPH_USED_AHT20
+#ifndef LSD_PERIPH_USED_AHT20
 
 /*
  * Speed of sound Look Up Table ranging from 10 to 35 °C (), with UR at 10% and 90%:
@@ -211,5 +211,5 @@ static void interpolateSpeedOfSound( void ){
 	return;
 }
 
-#endif /* PERIPH_USED_AHT20 */
+#endif /* LSD_PERIPH_USED_AHT20 */
 
